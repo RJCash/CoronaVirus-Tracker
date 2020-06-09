@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 @Controller
@@ -16,8 +17,10 @@ public class CoronaController {
     CoronaVirusDataService coronaVirusDataService;
 
     @GetMapping("/")
-    public String Home(Model model){
+    public String Home(Model model) throws IOException {
         ArrayList<LocationsStats> stats = coronaVirusDataService.getCurrentStats();
+
+        String date = coronaVirusDataService.getDate();
         if(stats.get(0).getState().equals("Province/State")){
             stats.remove(0);
         }
@@ -28,6 +31,16 @@ public class CoronaController {
         }
         model.addAttribute("locationStats", stats);
         model.addAttribute("totalSum",total_sum);
+        model.addAttribute("date",date);
         return "index";
+    }
+
+    public boolean isInteger(String string) {
+        try {
+            Integer.valueOf(string);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
     }
 }
