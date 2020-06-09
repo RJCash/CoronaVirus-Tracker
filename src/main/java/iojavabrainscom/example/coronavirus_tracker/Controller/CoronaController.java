@@ -18,8 +18,16 @@ public class CoronaController {
     @GetMapping("/")
     public String Home(Model model){
         ArrayList<LocationsStats> stats = coronaVirusDataService.getCurrentStats();
-        stats.remove(0);
+        if(stats.get(0).getState().equals("Province/State")){
+            stats.remove(0);
+        }
+
+        int total_sum = 0;
+        for (LocationsStats stat: stats){
+            total_sum += Integer.parseInt(stat.getLatestTotalCases());
+        }
         model.addAttribute("locationStats", stats);
+        model.addAttribute("totalSum",total_sum);
         return "index";
     }
 }

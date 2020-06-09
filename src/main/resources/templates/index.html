@@ -3,22 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <title>CoronaVirus Tracker</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 </head>
 <body>
-    <p th:text="${test}">Corona Virus tracker</p>
+    <h1>Corona Virus tracker</h1>
+    <p>This app tracks total cases for each Country/State</p>
+    <div class="alert alert-primary" th:text="'Total Cases= '+ ${totalSum}" role="alert">
+        A simple primary alert—check it out!
+    </div>
 
-<table>
-    <tr>
-        <th>State</th>
-        <th>Country</th>
-        <th>Latest Total Cases</th>
-    </tr>
-    <tr th:each="locationStat:${locationStats}">
-        <td th:text="${locationStat.state}"></td>
-        <td th:text="${locationStat.country}"></td>
-        <td th:text="${locationStat.latestTotalCases}"></td>
-    </tr>
 
-</table>
+    <div style="background:#f0f0f0;" class="container border">
+        <div style="font-weight:bold;" class="row">
+            <div class="col border">
+                State
+            </div>
+            <div class="col border">
+                Country
+            </div>
+            <div class="col-4 border">
+                Latest Total Cases
+            </div>
+        </div>
+        <div th:each="locationStat:${locationStats}" class="row border">
+            <div th:text="${locationStat.state}" class="col border">
+                1 of 3
+            </div>
+            <div th:text="${locationStat.country}" class="col border">
+                2 of 3
+            </div>
+            <div th:text="${locationStat.latestTotalCases}" class="col border">
+                3 of 3
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>

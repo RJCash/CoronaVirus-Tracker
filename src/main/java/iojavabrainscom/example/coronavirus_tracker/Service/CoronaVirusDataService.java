@@ -35,7 +35,7 @@ public class CoronaVirusDataService {
     }
 
     @PostConstruct
-    @Scheduled(cron= "* * 1 * * *")
+    @Scheduled(cron= "* * * 1 * *")
     public void getVirusData() throws IOException {
         ArrayList<LocationsStats> newStats = new ArrayList<>();
         // Get the input stream through URL Connection
