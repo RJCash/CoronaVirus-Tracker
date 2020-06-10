@@ -28,9 +28,6 @@
             <div class="col border">
                 Deaths
             </div>
-            <div class="col border">
-                Recovered
-            </div>
         </div>
         <div th:each="locationStat:${locationStats}" class="row border">
             <div th:text="${locationStat.state}" class="col border">
@@ -45,9 +42,7 @@
             <div th:text="${locationStat.deaths}" class="col border">
                 4 of 5
             </div>
-            <div th:text="${locationStat.recovered}" class="col border">
-                5 of 5
-            </div>
+
         </div>
     </div>
 

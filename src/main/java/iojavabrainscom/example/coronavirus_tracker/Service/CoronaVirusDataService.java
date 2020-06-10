@@ -58,11 +58,11 @@ public class CoronaVirusDataService {
         String line = null;
 
 
+        //set State and Country
         while ((line = br.readLine()) != null) {
             StringBuffer sb = new StringBuffer(line);
             if (line.startsWith(",")) {
                 line = sb.insert(0, "NA").toString();
-
             }
             LocationsStats locationsStats = new LocationsStats();
             Reader in = new StringReader(line);
@@ -71,25 +71,46 @@ public class CoronaVirusDataService {
                 locationsStats.setState(record.get(0));
                 locationsStats.setCountry(record.get(1));
                 locationsStats.setLatestTotalCases(record.get(record.size() - 1));
-            }
-            Reader in2 = new StringReader(br2.readLine());
-            Iterable<CSVRecord> records2 = CSVFormat.DEFAULT.parse(in2);
-            for (CSVRecord record : records2) {
-                locationsStats.setDeaths(record.get(record.size()-1));
-            }
-            Reader in3 = new StringReader(br3.readLine());
-            Iterable<CSVRecord> records3 = CSVFormat.DEFAULT.parse(in3);
-            for (CSVRecord record : records3) {
-                locationsStats.setRecovered(record.get(record.size()-1));
-                System.out.println(locationsStats.toString());
                 newStats.add(locationsStats);
 
             }
             this.currentStats = newStats;
-            date = currentStats.get(0).getDeaths();
-            if(newStats.get(newStats.size()-1).getCountry().equals("Botswana")){
-                break;
+        }
+
+        //set deaths
+        int index = 0;
+        while ((line = br2.readLine()) != null) {
+            StringBuffer sb = new StringBuffer(line);
+            if (line.startsWith(",")) {
+                line = sb.insert(0, "NA").toString();
             }
+            Reader in = new StringReader(line);
+            Iterable<CSVRecord> records = CSVFormat.DEFAULT.parse(in);
+            for (CSVRecord record : records) {
+                currentStats.get(index).setDeaths(record.get(record.size()-1));
+                index++;
+            }
+
+        }
+
+       //recovered data not aligned with death and latest total cases
+//        index = 0;
+//        while ((line = br3.readLine()) != null) {
+//            StringBuffer sb = new StringBuffer(line);
+//            if (line.startsWith(",")) {
+//                line = sb.insert(0, "NA").toString();
+//            }
+//            Reader in = new StringReader(line);
+//            Iterable<CSVRecord> records = CSVFormat.DEFAULT.parse(in);
+//            for (CSVRecord record : records) {
+//                currentStats.get(index).setRecovered(record.get(record.size()-1));
+//                index++;
+//            }
+//
+//        }
+        date = currentStats.get(0).getLatestTotalCases();
+        for(LocationsStats stat:currentStats){
+            System.out.println(stat.toString());
         }
 
 
